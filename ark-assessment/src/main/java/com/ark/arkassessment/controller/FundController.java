@@ -18,8 +18,14 @@ public class FundController {
 
     @GetMapping("/funds")
     public ResponseEntity<List<Fund>> getAllFunds(){
-        List<Fund> investorList = fundService.getAllInvestors();
-        return new ResponseEntity<>(investorList, HttpStatus.OK);
+        List<Fund> fundList = fundService.getAllFunds();
+        return new ResponseEntity<>(fundList, HttpStatus.OK);
+    }
+
+    @GetMapping("/funds/{fundId}")
+    public ResponseEntity<Fund> getFundById(@PathVariable("fundId") long id){
+        Fund fund = fundService.getFundById(id);
+        return new ResponseEntity<>(fund, HttpStatus.OK);
     }
 
     @GetMapping("/clients/{clientId}/funds")
@@ -28,6 +34,7 @@ public class FundController {
 
         return new ResponseEntity<>(investorListByClientId, HttpStatus.OK);
     }
+
 
     @PostMapping("/clients/{clientId}/funds")
     public ResponseEntity<Fund> createFund(@PathVariable("clientId") long id, @RequestBody Fund fundRequest){

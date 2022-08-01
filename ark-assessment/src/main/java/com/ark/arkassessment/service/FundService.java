@@ -23,7 +23,7 @@ public class FundService {
     @Autowired
     InvestorRepository investorRepository;
 
-    public List<Fund> getAllInvestors() {
+    public List<Fund> getAllFunds() {
         return fundRepository.findAll();
     }
     public List<Fund> getALlInvestorsByClientId(long id) {
@@ -50,5 +50,9 @@ public class FundService {
             investorToFund.getFundList().add(fund);
             return fundRepository.save(fund);
         }).orElseThrow(() -> new EntityNotFoundException("Could not find Fund with id of " + fundId));
+    }
+
+    public Fund getFundById(long id) {
+        return fundRepository.findById(id).get();
     }
 }

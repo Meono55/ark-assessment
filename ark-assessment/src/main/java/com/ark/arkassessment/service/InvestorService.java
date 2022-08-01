@@ -58,4 +58,8 @@ public class InvestorService {
         }).orElseThrow(() -> new EntityNotFoundException("Could not find Investor with id of "+ investorId));
 
     }
+
+    public Investor getInvestorById(long id) {
+        return investorRepository.findById(id).get();
+    }
 }

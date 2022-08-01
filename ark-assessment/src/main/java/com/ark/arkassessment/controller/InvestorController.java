@@ -23,6 +23,12 @@ public class InvestorController {
         return new ResponseEntity<>(investorList, HttpStatus.OK);
     }
 
+    @GetMapping("/investors/{investorId}")
+    public ResponseEntity<Investor> getInvestorById(@PathVariable("investorId") long id) {
+        Investor investor = investorService.getInvestorById(id);
+        return new ResponseEntity<>(investor, HttpStatus.OK);
+    }
+
     @GetMapping("/clients/{clientId}/investors")
     public ResponseEntity<List<Investor>> getAllInvestorsByClientId(@PathVariable("clientId") long id){
         List<Investor> investorListByClientId = investorService.getALlInvestorsByClientId(id);
