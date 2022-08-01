@@ -1,5 +1,6 @@
 package com.ark.arkassessment.controller;
 
+import com.ark.arkassessment.model.AmountToInvest;
 import com.ark.arkassessment.model.Investor;
 import com.ark.arkassessment.service.InvestorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class InvestorController {
     }
 
     @PutMapping("/funds/{fundId}/{investorId}")
-    public ResponseEntity<Investor> investInAFund(@PathVariable("fundId") long id, @PathVariable("investorId") long investorId){
-        Investor updatedInvestorWithFund = investorService.investInAFund(id, investorId);
+    public ResponseEntity<Investor> investInAFund(@PathVariable("fundId") long id, @PathVariable("investorId") long investorId, @RequestBody AmountToInvest amountToInvest){
+        Investor updatedInvestorWithFund = investorService.investInAFund(id, investorId, amountToInvest.getAmount());
 
         return new ResponseEntity<>(updatedInvestorWithFund, HttpStatus.OK);
     }

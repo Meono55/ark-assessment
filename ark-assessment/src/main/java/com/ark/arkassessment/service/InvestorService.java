@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class InvestorService {
@@ -41,12 +42,18 @@ public class InvestorService {
         return newInvestor;
     }
 
-    public Investor investInAFund(long id, long investorId) {
+    public Investor investInAFund(long id, long investorId, int amountToInvest) {
 
         Fund associatedFund = fundRepository.findById(id).get();
         return investorRepository.findById(investorId).map(investor -> {
-            investor.getFundList().add(associatedFund);
-            associatedFund.getInvestorList().add(investor);
+            if(investor.getFundList().contains(associatedFund)) {
+                associatedFund.setAmount(associatedFund.getAmount() + amountToInvest);
+            } else {
+                investor.getFundList().add(associatedFund);
+                associatedFund.getInvestorList().add(investor);
+                associatedFund.setAmount(associatedFund.getAmount() + amountToInvest);
+            }
+
             return investorRepository.save(investor);
         }).orElseThrow(() -> new EntityNotFoundException("Could not find Investor with id of "+ investorId));
 
